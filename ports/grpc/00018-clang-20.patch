@@ -1,0 +1,426 @@
+diff --git a/src/core/lib/promise/detail/basic_seq.h b/src/core/lib/promise/detail/basic_seq.h
+index 5f4199e5df..b37ef608e4 100644
+--- a/src/core/lib/promise/detail/basic_seq.h
++++ b/src/core/lib/promise/detail/basic_seq.h
+@@ -90,7 +90,7 @@ class BasicSeqIter {
+   Poll<Wrapped> PollNonEmpty() {
+     Poll<Wrapped> r = state_();
+     if (r.pending()) return r;
+-    return Traits::template CheckResultAndRunNext<Wrapped>(
++    return Traits::CheckResultAndRunNext<Wrapped>(
+         std::move(r.value()), [this](Wrapped arg) -> Poll<Wrapped> {
+           auto next = cur_;
+           ++next;
+diff --git a/src/core/lib/promise/detail/join_state.h b/src/core/lib/promise/detail/join_state.h
+index 403ec38b06..31ac988275 100644
+--- a/src/core/lib/promise/detail/join_state.h
++++ b/src/core/lib/promise/detail/join_state.h
+@@ -100,7 +100,7 @@ struct JoinState<Traits, P0, P1> {
+           Destruct(&promise0);
+           Construct(&result0, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -122,7 +122,7 @@ struct JoinState<Traits, P0, P1> {
+           Destruct(&promise1);
+           Construct(&result1, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -213,7 +213,7 @@ struct JoinState<Traits, P0, P1, P2> {
+           Destruct(&promise0);
+           Construct(&result0, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -235,7 +235,7 @@ struct JoinState<Traits, P0, P1, P2> {
+           Destruct(&promise1);
+           Construct(&result1, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -257,7 +257,7 @@ struct JoinState<Traits, P0, P1, P2> {
+           Destruct(&promise2);
+           Construct(&result2, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -364,7 +364,7 @@ struct JoinState<Traits, P0, P1, P2, P3> {
+           Destruct(&promise0);
+           Construct(&result0, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -386,7 +386,7 @@ struct JoinState<Traits, P0, P1, P2, P3> {
+           Destruct(&promise1);
+           Construct(&result1, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -408,7 +408,7 @@ struct JoinState<Traits, P0, P1, P2, P3> {
+           Destruct(&promise2);
+           Construct(&result2, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -430,7 +430,7 @@ struct JoinState<Traits, P0, P1, P2, P3> {
+           Destruct(&promise3);
+           Construct(&result3, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -552,7 +552,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4> {
+           Destruct(&promise0);
+           Construct(&result0, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -574,7 +574,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4> {
+           Destruct(&promise1);
+           Construct(&result1, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -596,7 +596,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4> {
+           Destruct(&promise2);
+           Construct(&result2, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -618,7 +618,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4> {
+           Destruct(&promise3);
+           Construct(&result3, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -640,7 +640,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4> {
+           Destruct(&promise4);
+           Construct(&result4, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -777,7 +777,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5> {
+           Destruct(&promise0);
+           Construct(&result0, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -799,7 +799,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5> {
+           Destruct(&promise1);
+           Construct(&result1, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -821,7 +821,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5> {
+           Destruct(&promise2);
+           Construct(&result2, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -843,7 +843,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5> {
+           Destruct(&promise3);
+           Construct(&result3, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -865,7 +865,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5> {
+           Destruct(&promise4);
+           Construct(&result4, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -887,7 +887,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5> {
+           Destruct(&promise5);
+           Construct(&result5, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1039,7 +1039,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6> {
+           Destruct(&promise0);
+           Construct(&result0, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1061,7 +1061,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6> {
+           Destruct(&promise1);
+           Construct(&result1, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1083,7 +1083,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6> {
+           Destruct(&promise2);
+           Construct(&result2, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1105,7 +1105,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6> {
+           Destruct(&promise3);
+           Construct(&result3, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1127,7 +1127,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6> {
+           Destruct(&promise4);
+           Construct(&result4, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1149,7 +1149,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6> {
+           Destruct(&promise5);
+           Construct(&result5, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1171,7 +1171,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6> {
+           Destruct(&promise6);
+           Construct(&result6, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1338,7 +1338,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6, P7> {
+           Destruct(&promise0);
+           Construct(&result0, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1360,7 +1360,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6, P7> {
+           Destruct(&promise1);
+           Construct(&result1, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1382,7 +1382,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6, P7> {
+           Destruct(&promise2);
+           Construct(&result2, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1404,7 +1404,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6, P7> {
+           Destruct(&promise3);
+           Construct(&result3, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1426,7 +1426,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6, P7> {
+           Destruct(&promise4);
+           Construct(&result4, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1448,7 +1448,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6, P7> {
+           Destruct(&promise5);
+           Construct(&result5, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1470,7 +1470,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6, P7> {
+           Destruct(&promise6);
+           Construct(&result6, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1492,7 +1492,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6, P7> {
+           Destruct(&promise7);
+           Construct(&result7, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1674,7 +1674,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6, P7, P8> {
+           Destruct(&promise0);
+           Construct(&result0, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1696,7 +1696,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6, P7, P8> {
+           Destruct(&promise1);
+           Construct(&result1, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1718,7 +1718,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6, P7, P8> {
+           Destruct(&promise2);
+           Construct(&result2, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1740,7 +1740,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6, P7, P8> {
+           Destruct(&promise3);
+           Construct(&result3, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1762,7 +1762,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6, P7, P8> {
+           Destruct(&promise4);
+           Construct(&result4, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1784,7 +1784,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6, P7, P8> {
+           Destruct(&promise5);
+           Construct(&result5, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1806,7 +1806,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6, P7, P8> {
+           Destruct(&promise6);
+           Construct(&result6, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1828,7 +1828,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6, P7, P8> {
+           Destruct(&promise7);
+           Construct(&result7, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+@@ -1850,7 +1850,7 @@ struct JoinState<Traits, P0, P1, P2, P3, P4, P5, P6, P7, P8> {
+           Destruct(&promise8);
+           Construct(&result8, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
+diff --git a/tools/codegen/core/gen_join.py b/tools/codegen/core/gen_join.py
+index cd90390ae3..7d6c99f0d6 100755
+--- a/tools/codegen/core/gen_join.py
++++ b/tools/codegen/core/gen_join.py
+@@ -76,7 +76,7 @@ struct JoinState<Traits, ${",".join(f"P{i}" for i in range(0,n))}> {
+           Destruct(&promise${i});
+           Construct(&result${i}, Traits::Unwrapped(std::move(*p)));
+         } else {
+-          return Traits::template EarlyReturn<Result>(std::move(*p));
++          return Traits::EarlyReturn<Result>(std::move(*p));
+         }
+       }
+     } else {
